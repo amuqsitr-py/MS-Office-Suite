@@ -1,0 +1,277 @@
+﻿<Controls:MetroWindow x:Class="LikePaint.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:LikePaint"
+        xmlns:self="clr-namespace:LikePaint"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="OneNote By Abdul Muqsit Ravasia (9970)" Height="730" Width="850" Loaded="MetroWindow_Loaded">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver"
+                                 Value="True">
+                    <Setter Property="BorderThickness" Value="4" />
+                </Trigger>
+            </Style.Triggers>
+            
+        </Style>
+
+        <Style TargetType="{x:Type MenuItem}">
+            <Style.Triggers>
+                <Trigger Property="MenuItem.IsPressed" Value="true">
+                    <Setter Property = "Foreground" Value="#66798f"/>
+                    <Setter Property = "FontWeight" Value="Bold"/>
+                </Trigger>
+
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type ToggleButton}">
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+    </Window.Resources>
+
+    <Window.CommandBindings>
+        <CommandBinding Command="self:Commands.Save" Executed="cmd_Save"/>
+        <CommandBinding Command="self:Commands.Delete" Executed="cmd_Delete"/>
+    </Window.CommandBindings>
+
+    <StackPanel Background="#F5F6F7">
+        <ToolBarTray HorizontalAlignment="Left" VerticalAlignment="Top" Background="#F5F6F7">
+            <ToolBar Height="73">
+                
+                <Button Margin="4,0" Command="self:Commands.Delete" ToolTip="Delete all elements from canvas">
+                    <StackPanel>
+                        <Image Source="/images/delete.png" Width="33" Height="33"/>
+                        <TextBlock Text="Delete" HorizontalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </Button>
+
+                <Button Margin="4,0" Command="self:Commands.Save" Height="68" VerticalAlignment="Top" ToolTip="Save your drawing">
+                    <StackPanel>
+                        <Image Source="/images/Save.png" Width="33" Height="33"/>
+                        <TextBlock Text="Save" HorizontalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </Button>
+
+
+                <ToggleButton  ToolBar.OverflowMode="Never" x:Name="pointerButton" Margin="4,0" Click="pointerButton_Click" ToolTip="Select shapes">
+                    <Image Source="images/pointer.png" Width="33" Height="33" />
+                </ToggleButton>
+
+                <Button Click="shapesButton_Click" Name="shapesButton" ContextMenuService.Placement="Bottom" Margin="4,0">
+                    <StackPanel>
+                        <Image Source="/images/shapes.png" Width="44" Height="44" SnapsToDevicePixels="True"/>
+                        <TextBlock Text="Shapes"></TextBlock>
+                    </StackPanel>
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            
+                            <MenuItem x:Name="circle" Click="circle_Click">
+                                <MenuItem.Header>
+                                    <TextBlock Text="Circle" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                </MenuItem.Header>
+                                <MenuItem.Icon>
+                                    <Image Source="/images/circle.png" Stretch="Fill" Height="30" Width="30" Margin="2" SnapsToDevicePixels="True" HorizontalAlignment="Center"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            
+                            <Separator />
+                            
+                            <MenuItem x:Name="rectangle" Click="rectangle_Click">
+                                <MenuItem.Header>
+                                    <TextBlock Text="Rectangle" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                </MenuItem.Header>
+                                <MenuItem.Icon>
+                                    <Image Source="/images/rectangle.png" Stretch="Fill" Height="30" Width="30" Margin="2" HorizontalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            
+                            <Separator />
+                            
+                            <MenuItem x:Name="ellipse" Click="elipse_Click">
+                                <MenuItem.Header>
+                                    <TextBlock Text="Elipse" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                </MenuItem.Header>
+                                <MenuItem.Icon>
+                                    <Image Source="/images/ellipse.png" Stretch="Fill" Height="30" Width="30" Margin="2" HorizontalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            
+                            <Separator />
+                            
+                            <MenuItem x:Name="triangle" Click="triangle_Click">
+                                <MenuItem.Header>
+                                    <TextBlock Text="Triangle" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                </MenuItem.Header>
+                                <MenuItem.Icon>
+                                    <Image Source="/images/triangle.png" Stretch="Fill" Height="30" Width="30" Margin="2" UseLayoutRounding="True" SnapsToDevicePixels="True" HorizontalAlignment="Center"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+                
+                <StackPanel Margin="4">
+                    <Rectangle x:Name="choosenColor" Height="44" Width="44" Fill="{Binding Path =colorName, UpdateSourceTrigger=PropertyChanged, FallbackValue='Black', TargetNullValue='Black'}"></Rectangle>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Fill Color</TextBlock>
+                </StackPanel>
+
+                <Grid Margin="4,4" Width="145" x:Name="colors">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="Black" Margin="1,1" BorderBrush="#B0BDCE" BorderThickness="1" Click="color_picker" Background="Black">
+                    </Button>
+
+                    <Button x:Name="Gray" Margin="1,1" BorderBrush="#B0BDCE" BorderThickness="1" Grid.Column="1" Click="color_picker" Background="Gray">
+                    </Button>
+
+                    <Button x:Name="Red" Margin="1,1" BorderBrush="#B0BDCE" BorderThickness="1" Grid.Column="2" Click="color_picker" Background="Red">
+                    </Button>
+
+                    <Button x:Name="Blue" Margin="1,1" BorderBrush="#B0BDCE" BorderThickness="1" Grid.Column="3" Click="color_picker" Background="Blue">
+                    </Button>
+
+                    <Button x:Name="Orange" Grid.Row="1" Margin="1,1" BorderBrush="#B0BDCE" BorderThickness="1" Click="color_picker" Background="Orange">
+                    </Button>
+
+                    <Button x:Name="Yellow" Grid.Column="1" Grid.Row="1" Margin="1,1" BorderBrush="#B0BDCE" BorderThickness="1" Click="color_picker" Background="Yellow">
+                    </Button>
+
+                    <Button x:Name="Green" Grid.Column="2" Grid.Row="1" Margin="1,1" BorderBrush="#B0BDCE" BorderThickness="1" Click="color_picker" Background="Green">
+                    </Button>
+
+                    <Button x:Name="White" Grid.Column="3" Grid.Row="1" Margin="1,1" BorderBrush="#B0BDCE" BorderThickness="1" Click="color_picker" Background="White">
+                    </Button>
+
+                    <Button x:Name="Pink" Margin="1,1" BorderBrush="#B0BDCE" BorderThickness="1" Grid.Column="4" Click="color_picker" Background="Pink">
+                    </Button>
+
+                    <Button x:Name="Transparent" Margin="1,1" BorderBrush="#B0BDCE" BorderThickness="1" Grid.Column="4" Grid.Row="2" Click="color_picker">
+                        <Button.Background>
+                            <ImageBrush ImageSource="images/slash.png"/>
+                        </Button.Background>
+                    </Button>
+
+                </Grid>
+                
+                <ComboBox  ToolBar.OverflowMode="Never" x:Name="lineWidthComboBox" Margin="4,0" Width="64" SelectedIndex="0" Padding="0" SelectionChanged="lineWidthComboBox_SelectionChanged" DropDownClosed="lineWidthComboBox_DropDownClosed">
+                    <ComboBoxItem>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Fill="Black" Height="3" Width="30" Margin="0,5" />
+                            <TextBlock Margin="8,0,0,0" ><Run Text="3" /></TextBlock>
+                        </StackPanel>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Fill="Black" Height="4" Width="30" Margin="0,5" />
+                            <TextBlock Margin="8,0,0,0" ><Run Text="4" /></TextBlock>
+                        </StackPanel>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Fill="Black" Height="5" Width="30" Margin="0,5" />
+                            <TextBlock Margin="8,0,0,0" ><Run Text="5" /></TextBlock>
+                        </StackPanel>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Fill="Black" Height="6" Width="30" Margin="0,5" />
+                            <TextBlock Margin="8,0,0,0" ><Run Text="6" /></TextBlock>
+                        </StackPanel>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Fill="Black" Height="7" Width="30" Margin="0,5" />
+                            <TextBlock Margin="8,0,0,0" ><Run Text="7" /></TextBlock>
+                        </StackPanel>
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        <TextBlock Margin="2,0,2,0" ><Run Text="no outline" /></TextBlock>
+                    </ComboBoxItem>
+                </ComboBox>
+
+                <ToggleButton  ToolBar.OverflowMode="Never" x:Name="drawLineButton" Margin="4,0" Click="drawLineButton_Click" ToolTip="Draw a line">
+                    <StackPanel>
+                        <Image Source="images/pencil.png" Width="44" Height="44" />
+                        <TextBlock Text="Draw" HorizontalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </ToggleButton>
+
+                <StackPanel Margin="4">
+                    <Rectangle x:Name="choosenOutlineColor" Height="44" Width="44" Fill="{Binding Path =outlineColors, UpdateSourceTrigger=PropertyChanged, FallbackValue='Black', TargetNullValue='Black'}"></Rectangle>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Outline Color</TextBlock>
+                </StackPanel>
+
+                <Grid Margin="4,4" Width="120" x:Name="outlineColor">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Margin="1,1" BorderBrush="#B0BDCE" BorderThickness="1" Click="outline_color_picker" Background="Black" Cursor="Hand">
+                    </Button>
+
+                    <Button Margin="1,1" BorderBrush="#B0BDCE" BorderThickness="1" Grid.Column="1" Click="outline_color_picker" Background="Gray">
+                    </Button>
+
+                    <Button Margin="1,1" BorderBrush="#B0BDCE" BorderThickness="1" Grid.Column="2" Click="outline_color_picker" Background="Red">
+                    </Button>
+
+                    <Button Margin="1,1" BorderBrush="#B0BDCE" BorderThickness="1" Grid.Column="3" Click="outline_color_picker" Background="Blue">
+                    </Button>
+
+                    <Button Grid.Row="1" Margin="1,1" BorderBrush="#B0BDCE" BorderThickness="1" Click="outline_color_picker" Background="Orange">
+                    </Button>
+
+                    <Button Grid.Column="1" Grid.Row="1" Margin="1,1" BorderBrush="#B0BDCE" BorderThickness="1" Click="outline_color_picker" Background="Yellow">
+                    </Button>
+
+                    <Button Grid.Column="2" Grid.Row="1" Margin="1,1" BorderBrush="#B0BDCE" BorderThickness="1" Click="outline_color_picker" Background="Green">
+                    </Button>
+
+                    <Button Grid.Column="3" Grid.Row="1" Margin="1,1" BorderBrush="#B0BDCE" BorderThickness="1" Click="outline_color_picker" Background="White">
+                    </Button>
+
+                </Grid>
+
+            </ToolBar>
+        </ToolBarTray>
+
+        <Grid x:Name="workspace" Background="#CED7E6">
+
+            <Border x:Name="border" BorderBrush="#B0BDCE" BorderThickness="2" HorizontalAlignment="Center" Height="600" Margin="1,5,-1,5" VerticalAlignment="Center" Width="800" Padding="0">
+                <Border.Effect>
+                    <DropShadowEffect Opacity="0.5" ShadowDepth="10" Direction="320"/>
+                </Border.Effect>
+                <Canvas x:Name="canvas" Background="White"  Margin="-1,-1,-1,-1" ClipToBounds="True" MouseDown="canvas_MouseDown" MouseUp="canvas_MouseUp"/>
+
+            </Border>
+        </Grid>
+    </StackPanel>
+</Controls:MetroWindow>
