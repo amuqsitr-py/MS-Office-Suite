@@ -1,0 +1,44 @@
+﻿<Window x:Class="WPFNotepad.HelpDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFNotepad"
+        mc:Ignorable="d"
+        Title="About" Height="142" Width="417"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="0,0,2,0" RenderTransformOrigin="0.5,0.5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="42*"/>
+            <ColumnDefinition Width="365*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform/>
+                <SkewTransform/>
+                <RotateTransform Angle="0.338"/>
+                <TranslateTransform/>
+            </TransformGroup>
+        </Grid.RenderTransform>
+        <StackPanel VerticalAlignment="Center"
+                HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="14,12,15,13">
+            <TextBlock FontSize="18"
+                   FontWeight="SemiBold">
+
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap" Height="38" RenderTransformOrigin="0.495,0.815" Width="378">
+                <TextBlock.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleX="0.133"/>
+                        <RotateTransform/>
+                        <TranslateTransform X="0.102"/>
+                    </TransformGroup>
+                </TextBlock.RenderTransform><Run Text="This is a C# WPF Wordpad application written by Abdul Muqsit Rawasia (9970)"/><LineBreak/></TextBlock>
+            <TextBlock FontSize="18"
+                    FontWeight="SemiBold">
+
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</Window>
